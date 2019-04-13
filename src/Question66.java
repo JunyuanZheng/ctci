@@ -1,18 +1,14 @@
 public class Question66 {
     public int[] plusOne(int[] digits) {
-        int overflow = 1;
         for (int i = digits.length - 1; i >= 0; i -= 1) {
-            int digit = digits[i] + overflow;
-            if (digit < 10) {
-                digits[i] += overflow;
+            if (digits[i] < 9) {
+                digits[i] += 1;
                 return digits;
             }
-            overflow = digit / 10;
-            digit %= 10;
-            digits[i] = digit;
+            digits[i] = 0;
         }
-        int[] newNumber = new int [digits.length + 1];
-        newNumber[0] = 1;
-        return newNumber;
+        int[] newDigits = new int[digits.length + 1];
+        newDigits[0] = 1;
+        return newDigits;
     }
 }
