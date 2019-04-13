@@ -12,11 +12,11 @@ public class Question29 {
         if (dividend > divisor)
             return 0;
         int preSum = divisor;
-        int currentSum = divisor << 1;
+        int curSum = divisor << 1;
         int result = 1;
-        while (dividend < currentSum && currentSum < preSum) {
-            preSum = currentSum;
-            currentSum <<= 1;
+        while (curSum > dividend && curSum < preSum) {
+            preSum = curSum;
+            curSum <<= 1;
             result <<= 1;
         }
         return result + helper(dividend - preSum, divisor);
