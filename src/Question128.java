@@ -10,13 +10,10 @@ public class Question128 {
         for (int num : nums) {
             if (set.contains(num - 1))
                 continue;
-            int currentNumber = num;
-            int localLength = 0;
-            while (set.contains(currentNumber)) {
-                currentNumber += 1;
-                localLength += 1;
-            }
-            length = Math.max(length, localLength);
+            int value = num;
+            while (set.contains(value))
+                value += 1;
+            length = Math.max(length, value - num);
         }
         return length;
     }
