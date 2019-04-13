@@ -12,16 +12,14 @@ public class Question131 {
         return resultLst;
     }
 
-    public void backTrack(String s, int l) {
-        if (currLst.size() > 0 && l >= s.length()) {
+    private void backTrack(String s, int idx) {
+        if (s.length() == idx && !currLst.isEmpty()) {
             resultLst.add(new ArrayList<>(currLst));
+            return;
         }
-        for (int i = l; i < s.length(); i++) {
-            if (isPalindrome(s, l, i)) {
-                if (l == i)
-                    currLst.add(Character.toString(s.charAt(i)));
-                else
-                    currLst.add(s.substring(l, i + 1));
+        for (int i = idx; i < s.length(); i += 1) {
+            if (isPalindrome(s, idx, i)) {
+                currLst.add(s.substring(idx, i + 1));
                 backTrack(s, i + 1);
                 currLst.remove(currLst.size() - 1);
             }
