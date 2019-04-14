@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class Question402 {
     /*
     public String removeKdigits(String num, int k) {
@@ -38,21 +40,26 @@ public class Question402 {
     */
 
     public String removeKdigits(String num, int k) {
-        int size = num.length();
-        int digits = num.length() - k;
-        char[] chars = new char[size];
-        int tip = 0;
-        for (int i = 0; i < size; i += 1) {
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < num.length(); i += 1) {
             char c = num.charAt(i);
-            while (tip > 0 && chars[tip - 1] > c && k > 0) {
-                tip -= 1;
+            while (!stack.isEmpty() && c < stack.peek() && k > 0) {
+                stack.pop();
                 k -= 1;
             }
-            chars[tip] = c;
-            tip += 1;
+            stack.push(c);
         }
-        int counter = 0;
-        while (counter < digits && chars[counter] == '0') counter += 1;
-        return counter == digits ? "0" : new String(chars, counter, digits - counter);
+        while (k > 0) {
+            stack.pop();
+            k -= 1;
+        }
+        StringBuilder sb = new StringBuilder();
+        while (!stack.isEmpty())
+            sb.insert(0, stack.pop());
+        String s = sb.toString();
+        int idx = 0;
+        while (idx < s.length() && s.charAt(idx) == '0')
+            idx += 1;
+        return idx == s.length() ? "0" : s.substring(idx);
     }
 }
