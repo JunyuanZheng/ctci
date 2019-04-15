@@ -28,22 +28,24 @@ public class Question42 {
     */
 
     public int trap(int[] height) {
+        if (height == null || height.length == 0)
+            return 0;
         int left = 0;
         int right = height.length - 1;
-        int max = 0;
-        int leftmax = 0;
-        int rightmax = 0;
+        int maxLeft = 0;
+        int maxRight = 0;
+        int result = 0;
         while (left <= right) {
-            leftmax = Math.max(leftmax, height[left]);
-            rightmax = Math.max(rightmax, height[right]);
-            if (leftmax < rightmax) {
-                max += (leftmax - height[left]);
-                left++;
+            maxLeft = Math.max(maxLeft, height[left]);
+            maxRight = Math.max(maxRight, height[right]);
+            if (maxLeft < maxRight) {
+                result += (maxLeft - height[left]);
+                left += 1;
             } else {
-                max += (rightmax - height[right]);
-                right--;
+                result += (maxRight - height[right]);
+                right -= 1;
             }
         }
-        return max;
+        return result;
     }
 }
