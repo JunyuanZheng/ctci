@@ -5,33 +5,51 @@ import java.util.Set;
 
 public class Question127 {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        if (!wordList.contains(endWord))
+        Set<String> wordSet = new HashSet<>(wordList);
+        if (!wordSet.contains(endWord))
             return 0;
-        Set<String> reached = new HashSet<>();
-        reached.add(beginWord);
-        int distance = 1;
-        while (!reached.contains(endWord)) {
-            Set<String> toAdd = new HashSet<>();
-            for (String s : reached) {
-                char[] chars = s.toCharArray();
-                for (int i = 0; i < s.length(); i += 1) {
-                    for (char ch = 'a'; ch <= 'z'; ch += 1) {
-                        char tmp = chars[i];
-                        chars[i] = ch;
-                        String word = new String(chars);
-                        if (wordList.contains(word)) {
-                            toAdd.add(word);
-                            wordList.remove(word);
+        Set<String> beginSet = new HashSet<>(), endSet = new HashSet<>();
+
+        int len = 1;
+        Set<String> visited = new HashSet<>();
+
+        beginSet.add(beginWord);
+        endSet.add(endWord);
+        while (!beginSet.isEmpty() && !endSet.isEmpty()) {
+            if (beginSet.size() > endSet.size()) {
+                // Swap two sets
+                Set<String> set = beginSet;
+                beginSet = endSet;
+                endSet = set;
+            }
+
+            Set<String> temp = new HashSet<>();
+            for (String word : beginSet) {
+                char[] chs = word.toCharArray();
+
+                for (int i = 0; i < chs.length; i++) {
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        char old = chs[i];
+                        chs[i] = c;
+                        String target = String.valueOf(chs);
+
+                        if (endSet.contains(target)) {
+                            return len + 1;
                         }
-                        chars[i] = tmp;
+
+                        if (!visited.contains(target) && wordSet.contains(target)) {
+                            temp.add(target);
+                            visited.add(target);
+                        }
+                        chs[i] = old;
                     }
                 }
             }
-            distance += 1;
-            if (toAdd.size() == 0)
-                return 0;
-            reached = toAdd;
+
+            beginSet = temp;
+            len++;
         }
-        return distance;
+
+        return 0;
     }
 }
