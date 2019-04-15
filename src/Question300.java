@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Question300 {
@@ -17,6 +18,7 @@ public class Question300 {
     }
     */
 
+    /*
     public int lengthOfLIS(int[] nums) {
         if (nums == null || nums.length == 0)
             return 0;
@@ -32,5 +34,21 @@ public class Question300 {
             max = Math.max(max, dp[i]);
         }
         return max;
+    }
+    */
+
+    public int lengthOfLIS(int[] nums) {
+        int[] dp = new int[nums.length];
+        int length = 0;
+        for (int num : nums) {
+            int idx = Arrays.binarySearch(dp, 0, length, num);
+            if (idx < 0) {
+                idx = - (idx + 1);
+            }
+            dp[idx] = num;
+            if (idx == length)
+                length += 1;
+        }
+        return length;
     }
 }
