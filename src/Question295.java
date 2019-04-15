@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class Question295 {
     /*
@@ -22,6 +24,7 @@ public class Question295 {
     }
     */
 
+    /*
     public static class MedianFinder {
         ArrayList<Integer> list;
 
@@ -51,6 +54,31 @@ public class Question295 {
             } else {
                 return (list.get(size / 2 - 1) + list.get(size / 2)) / 2.0;
             }
+        }
+    }
+    */
+
+    public static class MedianFinder {
+        PriorityQueue<Integer> min;
+        PriorityQueue<Integer> max;
+
+        /** initialize your data structure here. */
+        public MedianFinder() {
+            max = new PriorityQueue<>(Comparator.comparingInt(i -> i));
+            min = new PriorityQueue<>((i1, i2) -> i2 - i1);
+        }
+
+        public void addNum(int num) {
+            max.add(num);
+            min.add(max.poll());
+            while (min.size() > max.size())
+                max.add(min.poll());
+        }
+
+        public double findMedian() {
+            if (min.size() == max.size())
+                return (min.peek() + max.peek()) / 2.0;
+            return max.peek();
         }
     }
 }
