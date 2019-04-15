@@ -9,9 +9,10 @@ public class Question341 {
         Stack<NestedInteger> stack;
 
         public NestedIterator(List<NestedInteger> nestedList) {
-            this.stack = new Stack<>();
-            for(int i = nestedList.size() - 1; i >= 0; i--)
+            stack = new Stack<>();
+            for (int i = nestedList.size() - 1; i >= 0; i -= 1) {
                 stack.push(nestedList.get(i));
+            }
         }
 
         @Override
@@ -22,11 +23,12 @@ public class Question341 {
         @Override
         public boolean hasNext() {
             while (!stack.isEmpty()) {
-                if (stack.peek().isInteger())
+                NestedInteger nestedInteger = stack.peek();
+                if (nestedInteger.isInteger())
                     return true;
-                NestedInteger ni = stack.pop();
-                for(int i = ni.getList().size() - 1; i >= 0; i--) {
-                    stack.push(ni.getList().get(i));
+                List<NestedInteger> list = stack.pop().getList();
+                for (int i = list.size() - 1; i >= 0; i -= 1) {
+                    stack.push(list.get(i));
                 }
             }
             return false;
